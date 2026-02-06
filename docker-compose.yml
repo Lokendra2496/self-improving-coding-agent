@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: agentpass
+      POSTGRES_DB: agentdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:5
+    environment:
+      NEO4J_AUTH: neo4j/neo4jpass
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    ports:
+      - "6006:6006"
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main
+    platform: linux/amd64
+    environment:
+      LITELLM_MASTER_KEY: local-dev-key
+    ports:
+      - "4000:4000"
+
+volumes:
+  postgres_data:
+  neo4j_data:

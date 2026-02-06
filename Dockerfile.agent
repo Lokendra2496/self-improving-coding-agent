@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+ARG USER=agent
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g ${GID} ${USER} \
+    && useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USER}
+
+WORKDIR /work
+
+USER ${USER}
+
+CMD ["python", "--version"]
